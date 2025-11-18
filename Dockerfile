@@ -55,6 +55,11 @@ RUN { \
     echo '    adduser "${USERNAME}" sudo'; \
     echo 'fi'; \
     echo ''; \
+    echo '# Fix ownership of the home directory and .config'; \
+    echo 'chown -R "${USERNAME}:${USERNAME}" /home/${USERNAME}'; \
+    echo 'mkdir -p /home/${USERNAME}/.config/tmux'; \
+    echo 'chown -R "${USERNAME}:${USERNAME}" /home/${USERNAME}/.config'; \
+    echo ''; \
     echo 'exec "$@"'; \
     } > /usr/local/bin/entry_point.sh && \
     chmod +x /usr/local/bin/entry_point.sh
