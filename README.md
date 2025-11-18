@@ -4,7 +4,7 @@
 This container can be accessed by SSH and SFTP clients.
 
     docker run -d --name ubuntu-sshd \  
-           -e TZ=Asia/Tokyo \  
+           -e TZ=Asia/Shanghai \  
            -e ROOT_PASSWORD=root \  
            -p 8022:22 \  
            freedomzzz/docker-ubuntu-sshd
