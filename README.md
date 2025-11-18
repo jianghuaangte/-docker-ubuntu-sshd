@@ -24,15 +24,18 @@ You can add extra ports and volumes as follows if you want.
 ```yml
 version: '3'
 services:
-  ubuntu-sshd:
-    image: freedomzzz/docker-ubuntu-sshd
+  my_ubuntu_container:
+    image: freedomzzz/docker-ubuntu-sshd:latest
     container_name: ubuntu-sshd
-    environment:
-      - TZ=Asia/Shanghai
-      - ROOT_PASSWORD=123456
     ports:
-      - "8022:22"
-    restart: always
+      - "4022:22"  # 将容器的22端口映射到宿主机的2222端口
+    environment:
+      - ROOT_PASSWORD=123456
+      - USERNAME=ll
+      - USER_PASSWORD=123456
+#    volumes:
+#      - ./data:/data  # 可选，如果你需要挂载宿主机目录到容器中
+    restart: unless-stopped  # 容器失败时重启
 ```
 
 SCP command can be used for transferring files.
