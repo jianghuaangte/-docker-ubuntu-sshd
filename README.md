@@ -19,6 +19,22 @@ You can add extra ports and volumes as follows if you want.
            -v /my/own/datadir:/var/www/html \  
            freedomzzz/docker-ubuntu-sshd
 
+
+
+```yml
+version: '3'
+services:
+  ubuntu-sshd:
+    image: freedomzzz/docker-ubuntu-sshd
+    container_name: ubuntu-sshd
+    environment:
+      - TZ=Asia/Shanghai
+      - ROOT_PASSWORD=123456
+    ports:
+      - "8022:22"
+    restart: always
+```
+
 SCP command can be used for transferring files.
 
     scp -P 8022 -r /my/own/apache2.conf root@localhost:/etc/apache2/apache2.conf
