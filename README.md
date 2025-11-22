@@ -6,7 +6,7 @@ This container can be accessed by SSH and SFTP clients.
     docker run -d --name ubuntu-sshd \  
            -e TZ=Asia/Shanghai \  
            -e ROOT_PASSWORD=root \  
-           -p 8022:22 \  
+           -p 8022:4022 \  
            freedomzzz/docker-ubuntu-sshd
 
 You can add extra ports and volumes as follows if you want.
@@ -14,7 +14,7 @@ You can add extra ports and volumes as follows if you want.
     docker run -d --name ubuntu-sshd \  
            -e TZ=Asia/Shanghai \  
            -e ROOT_PASSWORD=root \  
-           -p 8022:22 \  
+           -p 8022:4022 \  
            -p 8080:80 \  
            -v /my/own/datadir:/var/www/html \  
            freedomzzz/docker-ubuntu-sshd
@@ -28,7 +28,7 @@ services:
     image: freedomzzz/docker-ubuntu-sshd:latest
     container_name: ubuntu-sshd
     ports:
-      - "4022:22"  # 将容器的22端口映射到宿主机的2222端口
+      - "4022:4022"  # 默认端口4022
     environment:
       - ROOT_PASSWORD=123456
       - USERNAME=ll
