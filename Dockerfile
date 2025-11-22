@@ -9,10 +9,12 @@ LABEL maintainer="Hiroki Takeyama"
 RUN apt update && apt install -y \
     tzdata \
     language-pack-en \
+    language-pack-zh-hans \
     locales \
     openssh-server \
     sudo \
     && locale-gen en_US.UTF-8 \
+    && locale-gen zh_CN.UTF-8 \
     && update-locale LANG=en_US.UTF-8 \
     && echo "LANG=en_US.UTF-8" > /etc/default/locale \
     && apt clean \
@@ -33,13 +35,9 @@ ENV USER_PASSWORD=userpassword
 # Setup SSH and change port to 4022
 # ------------------------------
 RUN mkdir /run/sshd && \
-    # 1. 设置允许Root登录
     sed -i 's/^#\(PermitRootLogin\) .*/\1 yes/' /etc/ssh/sshd_config && \
-    # 2. 禁用 PAM
     sed -i 's/^\(UsePAM yes\)/# \1/' /etc/ssh/sshd_config && \
-    # 3. 将端口从 22 更改为 4022
-    # 首先注释或移除现有的 Port 22 行（如果存在），然后添加 Port 4022
-    sed -i 's/^Port 22/#Port 22/' /etc/ssh/sshd_config && \
+    sed -i 's/^Port 22/#Port 22/' /etc/ssh/sshd_config || true && \
     echo 'Port 4022' >> /etc/ssh/sshd_config
 
 # ------------------------------
