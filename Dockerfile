@@ -30,11 +30,17 @@ ENV USERNAME=user
 ENV USER_PASSWORD=userpassword
 
 # ------------------------------
-# Setup SSH
+# Setup SSH and change port to 4022
 # ------------------------------
 RUN mkdir /run/sshd && \
+    # 1. 设置允许Root登录
     sed -i 's/^#\(PermitRootLogin\) .*/\1 yes/' /etc/ssh/sshd_config && \
-    sed -i 's/^\(UsePAM yes\)/# \1/' /etc/ssh/sshd_config
+    # 2. 禁用 PAM
+    sed -i 's/^\(UsePAM yes\)/# \1/' /etc/ssh/sshd_config && \
+    # 3. 将端口从 22 更改为 4022
+    # 首先注释或移除现有的 Port 22 行（如果存在），然后添加 Port 4022
+    sed -i 's/^Port 22/#Port 22/' /etc/ssh/sshd_config && \
+    echo 'Port 4022' >> /etc/ssh/sshd_config
 
 # ------------------------------
 # Setup entrypoint script
@@ -65,9 +71,9 @@ RUN { \
     chmod +x /usr/local/bin/entry_point.sh
 
 # ------------------------------
-# Expose SSH port
+# Expose new SSH port
 # ------------------------------
-EXPOSE 22
+EXPOSE 4022
 
 # ------------------------------
 # Set default command
